@@ -3,10 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/bwmarrin/discordgo"
-	"github.com/jonas747/dca"
 	"io"
 	"io/ioutil"
+
+	"github.com/bwmarrin/discordgo"
+	"github.com/sajfer/dca"
+
 	//"io/ioutil"
 	"log"
 	"os/exec"
