@@ -6,8 +6,8 @@ import (
 	"io"
 	"io/ioutil"
 
-	"github.com/bwmarrin/discordgo"
 	"github.com/sajfer/dca"
+	"github.com/sajfer/discordgo"
 
 	//"io/ioutil"
 	"log"
