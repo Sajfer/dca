@@ -3,7 +3,7 @@ module github.com/sajfer/dca
 go 1.20
 
 require (
-	github.com/bwmarrin/discordgo v0.27.1
+	github.com/sajfer/discordgo v0.29.1
 	github.com/jonas747/ogg v0.0.0-20161220051205-b4f6f4cf3757
 )
 
