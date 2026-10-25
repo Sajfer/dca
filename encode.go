@@ -200,12 +200,19 @@ func (e *EncodeSession) run() {
 	}
 
 	// Launch ffmpeg with a variety of different fruits and goodies mixed togheter
-	args := []string{
-		"-stats",
-		"-reconnect", "1",
-		"-reconnect_at_eof", "1",
-		"-reconnect_streamed", "1",
-		"-reconnect_delay_max", "2",
+	args := []string{"-stats"}
+	// The reconnect options belong to ffmpeg's http protocol. For any other
+	// input, such as pipe:0 from EncodeMem, ffmpeg fails with "Option
+	// reconnect not found".
+	if strings.HasPrefix(inFile, "http://") || strings.HasPrefix(inFile, "https://") {
+		args = append(args,
+			"-reconnect", "1",
+			"-reconnect_at_eof", "1",
+			"-reconnect_streamed", "1",
+			"-reconnect_delay_max", "2",
+		)
+	}
+	args = append(args,
 		"-i", inFile,
 		"-map", "0:a",
 		"-acodec", "libopus",
@@ -215,13 +222,13 @@ func (e *EncodeSession) run() {
 		"-af", fmt.Sprintf("volume=%.2f", e.options.Volume),
 		"-ar", strconv.Itoa(e.options.FrameRate),
 		"-ac", strconv.Itoa(e.options.Channels),
-		"-b:a", strconv.Itoa(e.options.Bitrate * 1000),
+		"-b:a", strconv.Itoa(e.options.Bitrate*1000),
 		"-application", string(e.options.Application),
 		"-frame_duration", strconv.Itoa(e.options.FrameDuration),
 		"-packet_loss", strconv.Itoa(e.options.PacketLoss),
 		"-threads", strconv.Itoa(e.options.Threads),
 		"-ss", strconv.Itoa(e.options.StartTime),
-	}
+	)
 
 	if e.options.AudioFilter != "" {
 		// Lit af
